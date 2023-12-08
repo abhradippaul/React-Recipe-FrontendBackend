@@ -1,7 +1,14 @@
 const model = require("../model/recipeModel")
 const showRecipes = async(req,res) =>{
-    const data = await model.findOne()
-    return res.json(data)
+    let data 
+    if(req.query.name == undefined){
+        data = await model.find()
+    }
+    else{
+        data = await model.find(req.query)
+    }
+    console.log(req.query)
+    return res.send(data)
 }
 const createRecipe = async(req,res) => {
     const data = req.body
@@ -15,7 +22,8 @@ const createRecipe = async(req,res) => {
     }
     res.send(await model.collection.insertOne({
         name : data.name,
-        description : description
+        description : description,
+        imagepath : data.imagepath
     }))
 }
 

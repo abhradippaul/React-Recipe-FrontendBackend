@@ -2,16 +2,22 @@ require("dotenv").config()
 require("./connection")
 const express = require("express")
 const app = express()
-const port = process.env.PORT || 2000
-app.use(express.json())
-app.use(express.urlencoded({extended : true}))
-const router = require("./routes/recipe")
-app.use("/recipe",router)
 
-app.get("/",(req,res)=>{
+app.use(express.urlencoded({ extended: false }))
+app.use(express.json())
+app.use(function (req, res, next) {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    next();
+});
+
+const router = require("./routes/recipe")
+app.use("/recipe", router)
+
+app.get("/", (req, res) => {
     res.send("React recipe backend")
 })
 
-app.listen(port,()=>{
+app.listen(process.env.PORT, () => {
     console.log("Server connected")
 })
