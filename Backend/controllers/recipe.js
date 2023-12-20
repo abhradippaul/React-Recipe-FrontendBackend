@@ -1,13 +1,13 @@
 const model = require("../model/recipeModel")
 const showRecipes = async(req,res) =>{
     let data 
-    if(req.query.name == undefined){
+    if(req.query.name == "undefined"){
         data = await model.find()
     }
     else{
         data = await model.find(req.query)
     }
-    console.log(req.query)
+    console.log(data)
     return res.send(data)
 }
 const createRecipe = async(req,res) => {
